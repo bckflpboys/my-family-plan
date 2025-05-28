@@ -1,9 +1,11 @@
 import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { 
   ArrowLeft, Users, Calendar, Plus, CreditCard, MapPin, Globe, Map,
   UserPlus, DollarSign, Percent, Check, X, Clock, Shield, BookOpen, User
 } from 'lucide-react';
 import { getRegionNameByCountry } from '../utils/regions';
+import { JoinFamilyModal } from '../components/JoinFamilyModal';
 
 // Define types for mock data
 interface Subscription {
@@ -411,6 +413,15 @@ const MemberCard = ({ member }: { member: Member }) => {
 export function FamilyDetail() {
   const { id } = useParams<{ id: string }>();
   const family = mockFamilyDetails.find(f => f.id === id);
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+
+  const handleOpenJoinModal = () => {
+    setIsJoinModalOpen(true);
+  };
+
+  const handleCloseJoinModal = () => {
+    setIsJoinModalOpen(false);
+  };
 
   if (!family) {
     return (
@@ -489,7 +500,10 @@ export function FamilyDetail() {
                   <h3 className="font-medium">Members</h3>
                 </div>
                 {family.memberCount < family.maxMembers && (
-                  <button className="px-3 py-1 bg-white text-indigo-600 text-sm font-medium rounded-md flex items-center hover:bg-indigo-50 transition-colors shadow-sm">
+                  <button 
+                    onClick={handleOpenJoinModal}
+                    className="px-3 py-1 bg-white text-indigo-600 text-sm font-medium rounded-md flex items-center hover:bg-indigo-50 transition-colors shadow-sm"
+                  >
                     <UserPlus className="h-3.5 w-3.5 mr-1" />
                     Join
                   </button>
@@ -616,13 +630,29 @@ export function FamilyDetail() {
 
         {/* Actions */}
         <div className="flex flex-wrap gap-4 justify-center">
-          <button className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+          <button 
+            onClick={handleOpenJoinModal}
+            className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+          >
             Request to Join
           </button>
           <button className="px-6 py-3 bg-white text-indigo-600 font-medium rounded-lg border border-indigo-200 hover:bg-indigo-50 transition-colors">
             Share Family
           </button>
         </div>
+        
+        {/* Join Family Modal */}
+        <JoinFamilyModal 
+          isOpen={isJoinModalOpen} 
+          onClose={handleCloseJoinModal} 
+          familyName={family.name}
+          familyId={family.id}
+          subscriptions={family.subscriptions.map(sub => ({
+            name: sub.name,
+            price: sub.price,
+            costPerMember: sub.costPerMember
+          }))}
+        />
       </div>
     </div>
   );
