@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Users, UserPlus, Share2, Shield } from 'lucide-react';
 import { Families } from './pages/Families';
 import { FamilyDetail } from './pages/FamilyDetail';
+import { TermsOfService } from './pages/TermsOfService';
+import { TermsOfUse } from './pages/TermsOfUse';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { Footer } from './components/Footer';
 import { Navbar } from './components/Navbar';
 
@@ -109,6 +112,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/families" element={<Families />} />
         <Route path="/families/:id" element={<FamilyDetail />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/terms-of-use" element={<TermsOfUse />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Routes>
 
       <Footer />

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, UserPlus, CreditCard, AlertCircle, Search, Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { subscriptions as allSubscriptions } from '../utils/subscriptions';
 import { countries } from '../utils/countries';
 
@@ -500,7 +501,7 @@ export function JoinFamilyModal({ isOpen, onClose, familyName, familyId, subscri
                       className="h-5 w-5 mt-0.5 text-indigo-600 focus:ring-indigo-500 rounded border-gray-400"
                     />
                     <span className="ml-3 text-sm text-gray-700">
-                      I agree to the <span className="text-indigo-600 hover:underline cursor-pointer">Terms of Use</span> and <span className="text-indigo-600 hover:underline cursor-pointer">Terms of Agreement</span>. I understand that my email and nickname will be shared with family members. No other personal information will be shared.
+                      I agree to the <Link to="/terms-of-use" className="text-indigo-600 hover:underline" target="_blank" rel="noopener noreferrer">Terms of Use</Link> and <Link to="/terms-of-service" className="text-indigo-600 hover:underline" target="_blank" rel="noopener noreferrer">Terms of Service</Link>. I understand that my email and nickname will be shared with family members. No other personal information will be shared.
                     </span>
                   </label>
                 </div>

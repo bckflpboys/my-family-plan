@@ -71,14 +71,19 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                <Link to="/terms-of-service" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Terms of Service
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms-of-use" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  Terms of Use
+                </Link>
               </li>
               <li>
                 <a href="#" className="flex items-center text-gray-400 hover:text-white transition-colors duration-200">

@@ -515,7 +515,7 @@ export function FamilyDetail() {
         </div>
 
         {/* Family header with gradient background */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-700 rounded-2xl shadow-xl p-6 mb-8 text-white border-2 border-indigo-300">
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-700 rounded-2xl shadow-xl p-6 mb-8 text-white border-3 border-indigo-500">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
               <div className="flex items-center">
@@ -612,8 +612,8 @@ export function FamilyDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Left column: Subscriptions */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-200">
-              <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 p-5 border-b-2 border-indigo-300">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-3 border-indigo-400">
+              <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 p-5 border-b-3 border-indigo-500">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-white flex items-center">
                     <CreditCard className="h-5 w-5 mr-2" />
@@ -639,8 +639,8 @@ export function FamilyDetail() {
           {/* Right column: Members and Rules */}
           <div className="space-y-8">
             {/* Members */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-200">
-              <div className="bg-gradient-to-r from-purple-600 to-purple-700 p-5 border-b-2 border-purple-300">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-3 border-indigo-400">
+              <div className="bg-gradient-to-r from-purple-600 to-purple-700 p-5 border-b-3 border-purple-500">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-white flex items-center">
                     <Users className="h-5 w-5 mr-2" />
@@ -663,8 +663,8 @@ export function FamilyDetail() {
             </div>
             
             {/* Family Rules */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-200">
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-5 border-b-2 border-blue-300">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-3 border-indigo-400">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-5 border-b-3 border-blue-500">
                 <h2 className="text-xl font-semibold text-white flex items-center">
                   <BookOpen className="h-5 w-5 mr-2" />
                   Family Rules

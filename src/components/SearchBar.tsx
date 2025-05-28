@@ -121,7 +121,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="block w-full pl-10 pr-3 py-2 border-2 border-indigo-400 rounded-full bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
             placeholder={placeholder}
           />
         </div>
@@ -129,7 +129,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
         {/* Filter button */}
         <button 
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className={`flex items-center justify-center px-3 py-2 border ${isFilterOpen ? 'border-indigo-500 bg-indigo-50 text-indigo-600' : 'border-gray-300 bg-white text-gray-700'} rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors`}
+          className={`flex items-center justify-center px-3 py-2 border-2 ${isFilterOpen ? 'border-indigo-600 bg-indigo-50 text-indigo-700' : 'border-indigo-400 bg-white text-gray-700'} rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors`}
           aria-expanded={isFilterOpen}
           aria-controls="filter-panel"
         >
@@ -145,26 +145,26 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
 
       {/* Filter panel */}
       {isFilterOpen && (
-        <div id="filter-panel" className="bg-white rounded-xl shadow-md p-4 max-w-md mx-auto">
+        <div id="filter-panel" className="bg-white rounded-xl shadow-md p-4 max-w-md mx-auto border-2 border-indigo-400">
           {/* Filter type tabs */}
-          <div className="flex mb-4 border-b border-gray-200">
+          <div className="flex mb-4 border-b-2 border-indigo-300">
             <button
               onClick={() => setActiveFilterType('subscription')}
-              className={`flex items-center px-4 py-2 text-sm font-medium ${activeFilterType === 'subscription' ? 'text-indigo-600 border-b-2 border-indigo-500' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`flex items-center px-4 py-2 text-sm font-medium ${activeFilterType === 'subscription' ? 'text-indigo-700 border-b-3 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
             >
               <Music className="h-4 w-4 mr-2" />
               Subscriptions
             </button>
             <button
               onClick={() => setActiveFilterType('country')}
-              className={`flex items-center px-4 py-2 text-sm font-medium ${activeFilterType === 'country' ? 'text-indigo-600 border-b-2 border-indigo-500' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`flex items-center px-4 py-2 text-sm font-medium ${activeFilterType === 'country' ? 'text-indigo-700 border-b-3 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
             >
               <Globe className="h-4 w-4 mr-2" />
               Countries
             </button>
             <button
               onClick={() => setActiveFilterType('plan')}
-              className={`flex items-center px-4 py-2 text-sm font-medium ${activeFilterType === 'plan' ? 'text-indigo-600 border-b-2 border-indigo-500' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`flex items-center px-4 py-2 text-sm font-medium ${activeFilterType === 'plan' ? 'text-indigo-700 border-b-3 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
             >
               <Users className="h-4 w-4 mr-2" />
               Plan Types
@@ -199,7 +199,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                   value={subscriptionSearchQuery}
                   onChange={(e) => setSubscriptionSearchQuery(e.target.value)}
                   placeholder="Search subscriptions..."
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 text-sm border-2 border-indigo-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-600"
                 />
               </div>
               <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
@@ -208,8 +208,8 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                     key={subscription}
                     onClick={() => toggleSubscription(subscription)}
                     className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${selectedSubscriptions.includes(subscription) 
-                      ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' 
-                      : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'}`}
+                      ? 'bg-indigo-100 text-indigo-800 border-2 border-indigo-400' 
+                      : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200'}`}
                   >
                     {subscription}
                   </button>
@@ -230,7 +230,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                   value={countrySearchQuery}
                   onChange={(e) => setCountrySearchQuery(e.target.value)}
                   placeholder="Search countries or regions..."
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 text-sm border-2 border-indigo-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-600"
                 />
               </div>
               
@@ -246,7 +246,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                           toggleCountry(country.name);
                         }
                       })}
-                      className="flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-50 text-blue-800 border border-blue-100 hover:bg-blue-100 transition-colors"
+                      className="flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-50 text-blue-800 border-2 border-blue-300 hover:bg-blue-100 transition-colors"
                     >
                       <Map className="h-3 w-3 mr-1" />
                       {region.name}
@@ -265,8 +265,8 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                     key={country.code}
                     onClick={() => toggleCountry(country.name)}
                     className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${selectedCountries.includes(country.name) 
-                      ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' 
-                      : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'}`}
+                      ? 'bg-indigo-100 text-indigo-800 border-2 border-indigo-400' 
+                      : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200'}`}
                     title={`Region: ${getRegionNameByCountry(country.name)}`}
                   >
                     {country.name}
@@ -283,8 +283,8 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                 <button
                   onClick={() => togglePlanType('individual')}
                   className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors ${selectedPlanTypes.includes('individual') 
-                    ? 'bg-purple-100 text-purple-800 border border-purple-200' 
-                    : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'}`}
+                    ? 'bg-purple-100 text-purple-800 border-2 border-purple-400' 
+                    : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200'}`}
                 >
                   <User className="h-4 w-4 mr-2" />
                   Individual
@@ -292,15 +292,15 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                 <button
                   onClick={() => togglePlanType('family')}
                   className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors ${selectedPlanTypes.includes('family') 
-                    ? 'bg-purple-100 text-purple-800 border border-purple-200' 
-                    : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'}`}
+                    ? 'bg-purple-100 text-purple-800 border-2 border-purple-400' 
+                    : 'bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200'}`}
                 >
                   <Users className="h-4 w-4 mr-2" />
                   Family
                 </button>
               </div>
               
-              <div className="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+              <div className="bg-blue-50 p-3 rounded-lg text-xs text-blue-800 border-2 border-blue-300">
                 <h4 className="font-medium mb-1">About Plan Types:</h4>
                 <p className="mb-2"><strong>Individual Plans:</strong> Shared between family members (one login for all).</p>
                 <p><strong>Family Plans:</strong> Each family member gets their own account.</p>
@@ -319,7 +319,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
           {selectedSubscriptions.map(filter => (
             <span 
               key={`sub-${filter}`} 
-              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 border border-indigo-300"
             >
               <Music className="h-3 w-3 mr-1" />
               {filter}
@@ -336,7 +336,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
           {selectedCountries.map(country => (
             <span 
               key={`country-${country}`} 
-              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-300"
             >
               <Globe className="h-3 w-3 mr-1" />
               {country}
@@ -353,7 +353,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
           {selectedPlanTypes.map(planType => (
             <span 
               key={`plan-${planType}`} 
-              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-300"
             >
               {planType === 'individual' ? <User className="h-3 w-3 mr-1" /> : <Users className="h-3 w-3 mr-1" />}
               {planType === 'individual' ? 'Individual' : planType === 'family' ? 'Family' : 'Group'}

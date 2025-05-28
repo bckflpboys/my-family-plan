@@ -121,9 +121,9 @@ export function FamilyCard({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-200 hover:scale-105 hover:shadow-2xl border border-gray-100">
+    <div className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-200 hover:scale-105 hover:shadow-2xl border-3 border-indigo-600">
       {/* Card header with gradient */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 relative">
+      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 relative border-b-3 border-indigo-500">
         <div className="flex justify-between items-start">
           <h3 className="text-xl font-bold text-white flex items-center">
             {name}
@@ -152,8 +152,8 @@ export function FamilyCard({
       </div>
       
       {/* Card content */}
-      <div className="p-5">
-        <div className="flex flex-wrap justify-between mb-4">
+      <div className="p-5 border-t-0">
+        <div className="flex flex-wrap justify-between mb-4 pb-3 border-b border-gray-200">
           <div className="flex items-center text-gray-600 mb-2 mr-4 group relative cursor-help">
             {countryRestriction === 'all' && (
               <>
@@ -190,7 +190,7 @@ export function FamilyCard({
         </div>
         
         {/* Plan Types */}
-        <div className="mb-4">
+        <div className="mb-4 pb-3 border-b border-gray-200">
           {renderPlanTypes()}
         </div>
         
