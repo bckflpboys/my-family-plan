@@ -311,9 +311,9 @@ const mockFamilyDetails: FamilyDetail[] = [
 
 const SubscriptionCard = ({ subscription }: { subscription: Subscription }) => {
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
+    <div className="border-2 border-gray-300 rounded-lg overflow-hidden shadow-md">
       {/* Subscription header */}
-      <div className="bg-indigo-50 p-4 flex flex-wrap items-center justify-between gap-2">
+      <div className="bg-indigo-100 p-4 flex flex-wrap items-center justify-between gap-2 border-b-2 border-indigo-200">
         <div className="flex items-center">
           <div className="h-10 w-10 rounded-lg bg-indigo-100 flex items-center justify-center mr-3">
             <span className="text-indigo-700 font-bold">{subscription.name.charAt(0)}</span>
@@ -346,7 +346,7 @@ const SubscriptionCard = ({ subscription }: { subscription: Subscription }) => {
       </div>
       
       {/* Subscription details */}
-      <div className="p-4">
+      <div className="p-4 bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <p className="text-xs text-gray-500 mb-1">Shared with:</p>
@@ -354,7 +354,7 @@ const SubscriptionCard = ({ subscription }: { subscription: Subscription }) => {
               {subscription.sharedWith.map((member, idx) => (
                 <span 
                   key={idx} 
-                  className="px-2 py-0.5 bg-indigo-50 text-indigo-700 text-xs rounded-full"
+                  className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs rounded-full border border-indigo-200"
                 >
                   {member}
                 </span>
@@ -381,7 +381,7 @@ const SubscriptionCard = ({ subscription }: { subscription: Subscription }) => {
 
 const MemberCard = ({ member }: { member: Member }) => {
   return (
-    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg border border-gray-100">
+    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg border-2 border-gray-300 shadow-sm bg-white">
       <div className="flex items-center gap-2">
         <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
           {member.avatar}
@@ -458,7 +458,7 @@ export function FamilyDetail() {
         </div>
 
         {/* Family header with gradient background */}
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl shadow-xl p-6 mb-8 text-white">
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-700 rounded-2xl shadow-xl p-6 mb-8 text-white border-2 border-indigo-300">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
               <div className="flex items-center">
@@ -493,7 +493,7 @@ export function FamilyDetail() {
           
           {/* Family stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-            <div className="bg-white/10 rounded-lg p-4">
+            <div className="bg-white/20 rounded-lg p-4 border border-white/30 shadow-md">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center">
                   <Users className="h-5 w-5 mr-2 text-white/80" />
@@ -513,7 +513,7 @@ export function FamilyDetail() {
               <p className="text-sm text-white/70">{family.maxMembers - family.memberCount} slots available</p>
             </div>
             
-            <div className="bg-white/10 rounded-lg p-4">
+            <div className="bg-white/20 rounded-lg p-4 border border-white/30 shadow-md">
               <div className="flex items-center mb-2">
                 <DollarSign className="h-5 w-5 mr-2 text-white/80" />
                 <h3 className="font-medium">Monthly Savings</h3>
@@ -522,7 +522,7 @@ export function FamilyDetail() {
               <p className="text-sm text-white/70"><Percent className="h-3 w-3 inline mr-1" />{family.savingsPercentage}% cheaper than individual</p>
             </div>
             
-            <div className="bg-white/10 rounded-lg p-4">
+            <div className="bg-white/20 rounded-lg p-4 border border-white/30 shadow-md">
               <div className="flex items-center mb-2">
                 {family.countryRestriction === 'all' && <Globe className="h-5 w-5 mr-2 text-white/80" />}
                 {family.countryRestriction === 'single' && <MapPin className="h-5 w-5 mr-2 text-white/80" />}
@@ -541,7 +541,7 @@ export function FamilyDetail() {
               </p>
             </div>
             
-            <div className="bg-white/10 rounded-lg p-4">
+            <div className="bg-white/20 rounded-lg p-4 border border-white/30 shadow-md">
               <div className="flex items-center mb-2">
                 <Calendar className="h-5 w-5 mr-2 text-white/80" />
                 <h3 className="font-medium">Created</h3>
@@ -555,8 +555,8 @@ export function FamilyDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Left column: Subscriptions */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 p-5">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-200">
+              <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 p-5 border-b-2 border-indigo-300">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-white flex items-center">
                     <CreditCard className="h-5 w-5 mr-2" />
@@ -582,8 +582,8 @@ export function FamilyDetail() {
           {/* Right column: Members and Rules */}
           <div className="space-y-8">
             {/* Members */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-5">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-200">
+              <div className="bg-gradient-to-r from-purple-600 to-purple-700 p-5 border-b-2 border-purple-300">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-white flex items-center">
                     <Users className="h-5 w-5 mr-2" />
@@ -606,8 +606,8 @@ export function FamilyDetail() {
             </div>
             
             {/* Family Rules */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-5">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-200">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-5 border-b-2 border-blue-300">
                 <h2 className="text-xl font-semibold text-white flex items-center">
                   <BookOpen className="h-5 w-5 mr-2" />
                   Family Rules
