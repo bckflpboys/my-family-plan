@@ -1,6 +1,13 @@
 import { useState, useMemo } from 'react';
 import { FamilyCard } from '../components/FamilyCard';
-import { SearchBar } from '../components/SearchBar';
+import { SearchBar, SubscriptionType } from '../components/SearchBar';
+import { getSubscriptionByName } from '../utils/subscriptions';
+
+// Helper function to get subscription data from the utility
+const getSubscriptionData = (name: string) => {
+  const subscription = getSubscriptionByName(name);
+  return subscription ? { name: subscription.name, icon: subscription.icon } : { name, icon: 'default' };
+};
 
 const mockFamilies = [
   {
@@ -8,10 +15,11 @@ const mockFamilies = [
     name: "Smith Family",
     memberCount: 4,
     maxMembers: 6,
+    country: "United States",
     subscriptions: [
-      { name: "Netflix", icon: "netflix" },
-      { name: "Spotify", icon: "spotify" },
-      { name: "YouTube Premium", icon: "youtube" }
+      getSubscriptionData("Netflix"),
+      getSubscriptionData("Spotify"),
+      getSubscriptionData("YouTube Premium")
     ],
     isOwner: true
   },
@@ -20,10 +28,11 @@ const mockFamilies = [
     name: "Gaming Squad",
     memberCount: 5,
     maxMembers: 6,
+    country: "Canada",
     subscriptions: [
-      { name: "Xbox Game Pass", icon: "xbox" },
-      { name: "PlayStation Plus", icon: "playstation" },
-      { name: "Nintendo Online", icon: "nintendo" }
+      getSubscriptionData("Xbox Game Pass"),
+      getSubscriptionData("PlayStation Plus"),
+      getSubscriptionData("Nintendo Online")
     ]
   },
   {
@@ -31,24 +40,88 @@ const mockFamilies = [
     name: "Movie Lovers",
     memberCount: 3,
     maxMembers: 6,
+    country: "United Kingdom",
     subscriptions: [
-      { name: "Disney+", icon: "disney" },
-      { name: "HBO Max", icon: "hbo" },
-      { name: "Apple TV+", icon: "apple" }
+      getSubscriptionData("Disney+"),
+      getSubscriptionData("HBO Max"),
+      getSubscriptionData("Apple TV+")
+    ]
+  },
+  {
+    id: "4",
+    name: "Tech Enthusiasts",
+    memberCount: 4,
+    maxMembers: 5,
+    country: "Germany",
+    subscriptions: [
+      getSubscriptionData("Netflix"),
+      getSubscriptionData("Apple TV+")
+    ]
+  },
+  {
+    id: "5",
+    name: "Music Group",
+    memberCount: 6,
+    maxMembers: 6,
+    country: "France",
+    subscriptions: [
+      getSubscriptionData("Spotify"),
+      getSubscriptionData("YouTube Premium")
+    ]
+  },
+  {
+    id: "6",
+    name: "Anime Fans",
+    memberCount: 3,
+    maxMembers: 6,
+    country: "Japan",
+    subscriptions: [
+      getSubscriptionData("Netflix"),
+      getSubscriptionData("Crunchyroll")
+    ]
+  },
+  {
+    id: "7",
+    name: "Creative Professionals",
+    memberCount: 4,
+    maxMembers: 5,
+    country: "Australia",
+    subscriptions: [
+      getSubscriptionData("Adobe Creative Cloud"),
+      getSubscriptionData("Microsoft 365")
     ]
   }
 ];
 
 export function Families() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSubscriptions, setSelectedSubscriptions] = useState<SubscriptionType[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
   const filteredFamilies = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return mockFamilies.filter(family => 
-      family.name.toLowerCase().includes(query) ||
-      family.subscriptions.some(sub => sub.name.toLowerCase().includes(query))
-    );
-  }, [searchQuery]);
+    
+    return mockFamilies.filter(family => {
+      // Filter by search query
+      const matchesQuery = 
+        family.name.toLowerCase().includes(query) ||
+        family.subscriptions.some(sub => sub.name.toLowerCase().includes(query));
+      
+      // Filter by selected subscription types
+      const matchesSubscriptions = 
+        selectedSubscriptions.length === 0 || // If no subscriptions selected, show all
+        family.subscriptions.some(sub => 
+          selectedSubscriptions.includes(sub.name as SubscriptionType)
+        );
+      
+      // Filter by selected countries
+      const matchesCountries = 
+        selectedCountries.length === 0 || // If no countries selected, show all
+        (family.country && selectedCountries.includes(family.country));
+      
+      return matchesQuery && matchesSubscriptions && matchesCountries;
+    });
+  }, [searchQuery, selectedSubscriptions, selectedCountries]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 py-12">
@@ -59,6 +132,8 @@ export function Families() {
           <SearchBar 
             value={searchQuery}
             onChange={setSearchQuery}
+            onFilterChange={setSelectedSubscriptions}
+            onCountryFilterChange={setSelectedCountries}
             placeholder="Search by family name or subscription..."
           />
         </div>

@@ -1,4 +1,4 @@
-import { Users, Crown } from 'lucide-react';
+import { Users, Crown, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface Subscription {
@@ -11,11 +11,12 @@ interface FamilyCardProps {
   name: string;
   memberCount: number;
   maxMembers: number;
+  country?: string;
   subscriptions: Subscription[];
   isOwner?: boolean;
 }
 
-export function FamilyCard({ id = '1', name, memberCount, maxMembers, subscriptions, isOwner = false }: FamilyCardProps) {
+export function FamilyCard({ id = '1', name, memberCount, maxMembers, country, subscriptions, isOwner = false }: FamilyCardProps) {
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 transform transition-all duration-200 hover:scale-105">
       <div className="flex items-center justify-between mb-4">
@@ -28,6 +29,13 @@ export function FamilyCard({ id = '1', name, memberCount, maxMembers, subscripti
           <span>{memberCount}/{maxMembers}</span>
         </div>
       </div>
+      
+      {country && (
+        <div className="flex items-center text-gray-600 mb-3">
+          <MapPin className="h-4 w-4 mr-1 text-indigo-500" />
+          <span className="text-sm">{country}</span>
+        </div>
+      )}
       
       <div className="space-y-3">
         <p className="text-sm text-gray-600">Active Subscriptions:</p>
