@@ -21,11 +21,14 @@ interface Subscription {
 
 interface Member {
   name: string;
+  nickname: string;
   role: string;
   avatar: string;
   joinDate: string;
   paymentStatus: string;
+  country: string;
   subscriptions: string[];
+  paidSubscriptions: string[];
 }
 
 interface FamilyDetail {
@@ -103,35 +106,47 @@ const mockFamilyDetails: FamilyDetail[] = [
     members: [
       { 
         name: "John Smith", 
+        nickname: "JohnS",
         role: "Owner", 
         avatar: "JS",
         joinDate: "2025-01-15",
         paymentStatus: "paid",
-        subscriptions: ["Netflix", "Spotify", "YouTube Premium"]
+        country: "United States",
+        subscriptions: ["Netflix", "Spotify", "YouTube Premium"],
+        paidSubscriptions: ["Netflix"]
       },
       { 
         name: "Alice Smith", 
+        nickname: "AliceS",
         role: "Member", 
         avatar: "AS",
         joinDate: "2025-01-16",
         paymentStatus: "paid",
-        subscriptions: ["Netflix", "Spotify", "YouTube Premium"]
+        country: "United States",
+        subscriptions: ["Netflix", "Spotify", "YouTube Premium"],
+        paidSubscriptions: ["Spotify"]
       },
       { 
         name: "Bob Smith", 
+        nickname: "BobS",
         role: "Member", 
         avatar: "BS",
         joinDate: "2025-01-20",
         paymentStatus: "pending",
-        subscriptions: ["Netflix", "Spotify"]
+        country: "Canada",
+        subscriptions: ["Netflix", "Spotify"],
+        paidSubscriptions: ["YouTube Premium"]
       },
       { 
         name: "Charlie Smith", 
+        nickname: "CharlieS",
         role: "Member", 
         avatar: "CS",
         joinDate: "2025-02-01",
         paymentStatus: "paid",
-        subscriptions: ["Netflix", "YouTube Premium"]
+        country: "United Kingdom",
+        subscriptions: ["Netflix", "YouTube Premium"],
+        paidSubscriptions: []
       }
     ]
   },
@@ -189,43 +204,58 @@ const mockFamilyDetails: FamilyDetail[] = [
     members: [
       { 
         name: "Alex Johnson", 
+        nickname: "AlexJ",
         role: "Owner", 
         avatar: "AJ",
         joinDate: "2025-02-20",
         paymentStatus: "paid",
-        subscriptions: ["Xbox Game Pass", "PlayStation Plus", "Nintendo Online"]
+        country: "Canada",
+        subscriptions: ["Xbox Game Pass", "PlayStation Plus", "Nintendo Online"],
+        paidSubscriptions: ["Xbox Game Pass"]
       },
       { 
         name: "Mike Williams", 
+        nickname: "MikeW",
         role: "Member", 
         avatar: "MW",
-        joinDate: "2025-02-21",
+        joinDate: "2025-02-22",
         paymentStatus: "paid",
-        subscriptions: ["Xbox Game Pass", "PlayStation Plus"]
+        country: "Canada",
+        subscriptions: ["Xbox Game Pass", "PlayStation Plus"],
+        paidSubscriptions: ["PlayStation Plus"]
       },
       { 
         name: "Sarah Davis", 
+        nickname: "SarahD",
         role: "Member", 
         avatar: "SD",
         joinDate: "2025-02-22",
         paymentStatus: "pending",
-        subscriptions: ["Xbox Game Pass", "PlayStation Plus"]
+        country: "United States",
+        subscriptions: ["Xbox Game Pass", "PlayStation Plus"],
+        paidSubscriptions: []
       },
       { 
-        name: "David Brown", 
+        name: "David Chen", 
+        nickname: "DavidC",
         role: "Member", 
-        avatar: "DB",
-        joinDate: "2025-02-25",
-        paymentStatus: "paid",
-        subscriptions: ["Xbox Game Pass", "Nintendo Online"]
+        avatar: "DC",
+        joinDate: "2025-03-01",
+        paymentStatus: "pending",
+        country: "Japan",
+        subscriptions: ["Xbox Game Pass", "Nintendo Online"],
+        paidSubscriptions: []
       },
       { 
         name: "Emma Wilson", 
+        nickname: "EmmaW",
         role: "Member", 
         avatar: "EW",
         joinDate: "2025-03-01",
         paymentStatus: "paid",
-        subscriptions: ["Xbox Game Pass", "PlayStation Plus", "Nintendo Online"]
+        country: "United Kingdom",
+        subscriptions: ["Xbox Game Pass", "PlayStation Plus", "Nintendo Online"],
+        paidSubscriptions: ["Nintendo Online"]
       }
     ]
   },
@@ -282,94 +312,99 @@ const mockFamilyDetails: FamilyDetail[] = [
     ],
     members: [
       { 
-        name: "Olivia Taylor", 
+        name: "Michael Brown", 
+        nickname: "MikeB",
         role: "Owner", 
-        avatar: "OT",
+        avatar: "MB",
         joinDate: "2025-03-10",
         paymentStatus: "paid",
-        subscriptions: ["Disney+", "HBO Max", "Apple TV+"]
+        country: "United States",
+        subscriptions: ["Disney+", "HBO Max", "Apple TV+"],
+        paidSubscriptions: ["Disney+"]
       },
       { 
-        name: "Ryan Miller", 
+        name: "Sophia Garcia", 
+        nickname: "SophiaG",
         role: "Member", 
-        avatar: "RM",
+        avatar: "SG",
         joinDate: "2025-03-12",
         paymentStatus: "paid",
-        subscriptions: ["Disney+", "HBO Max"]
+        country: "Spain",
+        subscriptions: ["Disney+", "HBO Max"],
+        paidSubscriptions: ["HBO Max"]
       },
       { 
-        name: "Sophia Anderson", 
+        name: "James Wilson", 
+        nickname: "JamesW",
         role: "Member", 
-        avatar: "SA",
+        avatar: "JW",
         joinDate: "2025-03-15",
         paymentStatus: "pending",
-        subscriptions: ["Disney+", "Apple TV+"]
+        country: "United Kingdom",
+        subscriptions: ["Disney+", "Apple TV+"],
+        paidSubscriptions: ["Apple TV+"]
       }
     ]
   }
 ];
 
-const SubscriptionCard = ({ subscription }: { subscription: Subscription }) => {
+const SubscriptionCard = ({ subscription, owner }: { subscription: Subscription; owner: string }) => {
   return (
-    <div className="border-2 border-gray-300 rounded-lg overflow-hidden shadow-md">
-      {/* Subscription header */}
-      <div className="bg-indigo-100 p-4 flex flex-wrap items-center justify-between gap-2 border-b-2 border-indigo-200">
-        <div className="flex items-center">
-          <div className="h-10 w-10 rounded-lg bg-indigo-100 flex items-center justify-center mr-3">
-            <span className="text-indigo-700 font-bold">{subscription.name.charAt(0)}</span>
-          </div>
-          <div>
-            <h3 className="font-medium text-gray-900">{subscription.name}</h3>
-            <div className="flex items-center text-gray-600 text-xs">
-              <span className="mr-2">{subscription.price}</span>
-              <span className="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">
-                {subscription.plan}
-              </span>
+    <div className="border-2 border-gray-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+      {/* Subscription header with gradient */}
+      <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 p-4 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center mr-3 shadow-md">
+              <span className="text-indigo-700 font-bold text-xl">{subscription.name.charAt(0)}</span>
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg">{subscription.name}</h3>
+              <div className="flex items-center mt-1">
+                <span className="font-medium">{subscription.price}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex items-center">
-          <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full flex items-center">
-            {subscription.planType === 'individual' ? (
-              <>
-                <User className="h-3 w-3 mr-1" />
-                Individual
-              </>
-            ) : (
-              <>
-                <Users className="h-3 w-3 mr-1" />
-                Family
-              </>
-            )}
-          </span>
+          <div className="flex flex-col items-end gap-2">
+            <span className="px-3 py-1 bg-white text-indigo-700 text-sm font-medium rounded-full shadow-sm">
+              {subscription.plan}
+            </span>
+            <span className="px-3 py-1 bg-indigo-400 text-white text-sm font-medium rounded-full shadow-sm flex items-center">
+              {subscription.planType === 'individual' ? (
+                <>
+                  <User className="h-3.5 w-3.5 mr-1.5" />
+                  Individual
+                </>
+              ) : (
+                <>
+                  <Users className="h-3.5 w-3.5 mr-1.5" />
+                  Family
+                </>
+              )}
+            </span>
+          </div>
         </div>
       </div>
       
       {/* Subscription details */}
-      <div className="p-4 bg-gray-50">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Shared with:</p>
-            <div className="flex flex-wrap gap-1">
-              {subscription.sharedWith.map((member, idx) => (
-                <span 
-                  key={idx} 
-                  className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs rounded-full border border-indigo-200"
-                >
-                  {member}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div>
-            <div className="flex justify-between text-sm">
-              <div>
-                <p className="text-gray-500">Cost per member:</p>
-                <p className="font-medium text-gray-900">{subscription.costPerMember}</p>
+      <div className="p-5 bg-white">
+        <div className="grid grid-cols-1 gap-6">
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+            <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+              <CreditCard className="h-4 w-4 mr-2 text-indigo-500" />
+              Plan Details
+            </h4>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                <p className="text-gray-600">Plan Type</p>
+                <p className="text-indigo-700 font-semibold">{subscription.plan} ({subscription.planType})</p>
               </div>
-              <div>
-                <p className="text-gray-500">Next payment:</p>
-                <p className="font-medium text-gray-900">{new Date(subscription.paymentDue).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+              <div className="flex justify-between items-center">
+                <p className="text-gray-600">Paid By</p>
+                <div className="flex items-center bg-green-50 px-3 py-1 rounded-full">
+                  <User className="h-3.5 w-3.5 mr-1.5 text-green-600" />
+                  <p className="text-green-700 font-semibold">{owner}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -381,29 +416,51 @@ const SubscriptionCard = ({ subscription }: { subscription: Subscription }) => {
 
 const MemberCard = ({ member }: { member: Member }) => {
   return (
-    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg border-2 border-gray-300 shadow-sm bg-white">
-      <div className="flex items-center gap-2">
-        <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-          {member.avatar}
-        </div>
-        <div>
-          <div className="font-semibold">{member.name}</div>
-          <div className="text-sm text-gray-500">{member.role}</div>
+    <div className="border-2 border-gray-300 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
+      {/* Member header */}
+      <div className={`${member.role === 'Owner' ? 'bg-gradient-to-r from-purple-600 to-purple-700' : 'bg-gradient-to-r from-blue-600 to-blue-700'} p-3 text-white`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-indigo-700 font-semibold shadow-md">
+              {member.avatar}
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">{member.nickname}</span>
+                <span className={`px-2 py-0.5 text-xs rounded-full ${member.role === 'Owner' ? 'bg-purple-500 text-white' : 'bg-blue-500 text-white'}`}>
+                  {member.role}
+                </span>
+              </div>
+              <div className="text-sm text-white/80">{member.name}</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-1 bg-white/10 px-2 py-1 rounded-lg">
+            <Globe className="h-3.5 w-3.5 text-white/80" />
+            <span className="text-sm">{member.country}</span>
+          </div>
         </div>
       </div>
-      <div className="mt-2 text-sm">
-        <div className="flex items-center gap-1">
-          <Calendar size={14} />
+      
+      {/* Member details */}
+      <div className="p-3">
+        <div className="flex items-center gap-1 text-sm text-gray-600">
+          <Calendar className="h-4 w-4 text-indigo-500" />
           <span>Joined: {member.joinDate}</span>
         </div>
-        <div className="flex items-center gap-1 mt-1">
-          <CreditCard size={14} />
-          <span>Status: <span className={`font-medium ${member.paymentStatus === 'paid' ? 'text-green-500' : 'text-amber-500'}`}>
-            {member.paymentStatus === 'paid' ? 'Paid' : 'Pending'}
-          </span></span>
-        </div>
-        <div className="mt-1">
-          <span className="text-xs text-gray-500">Subscriptions: {member.subscriptions.length}</span>
+        
+        {/* Subscriptions */}
+        <div className="mt-3 border-t border-gray-200 pt-3">
+          <h4 className="text-xs font-semibold text-gray-700 mb-2 flex items-center">
+            <CreditCard className="h-3.5 w-3.5 mr-1.5 text-indigo-500" />
+            Subscriptions:
+          </h4>
+          <div className="flex flex-wrap gap-1.5">
+            {member.subscriptions.map((sub, idx) => (
+              <span key={idx} className="px-2 py-0.5 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full border border-indigo-200">
+                {sub}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -572,7 +629,7 @@ export function FamilyDetail() {
               <div className="p-5">
                 <div className="space-y-6">
                   {family.subscriptions.map((subscription, index) => (
-                    <SubscriptionCard key={index} subscription={subscription} />
+                    <SubscriptionCard key={index} subscription={subscription} owner={family.owner} />
                   ))}
                 </div>
               </div>
