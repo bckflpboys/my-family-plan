@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { FamilyCard } from '../components/FamilyCard';
 import { SearchBar, SubscriptionType } from '../components/SearchBar';
-import { getSubscriptionByName } from '../utils/subscriptions';
+import { getSubscriptionByName, PlanType } from '../utils/subscriptions';
 
 // Helper function to get subscription data from the utility
 const getSubscriptionData = (name: string) => {
@@ -97,6 +97,7 @@ export function Families() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSubscriptions, setSelectedSubscriptions] = useState<SubscriptionType[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedPlanTypes, setSelectedPlanTypes] = useState<PlanType[]>([]);
 
   const filteredFamilies = useMemo(() => {
     const query = searchQuery.toLowerCase();
@@ -119,9 +120,23 @@ export function Families() {
         selectedCountries.length === 0 || // If no countries selected, show all
         (family.country && selectedCountries.includes(family.country));
       
-      return matchesQuery && matchesSubscriptions && matchesCountries;
+      // Filter by selected plan types
+      const matchesPlanTypes = 
+        selectedPlanTypes.length === 0 || // If no plan types selected, show all
+        family.subscriptions.some(sub => {
+          // Get full subscription data including plans
+          const fullSubscription = getSubscriptionByName(sub.name);
+          if (!fullSubscription) return false;
+          
+          // Check if any of the subscription's plans match the selected plan types
+          return fullSubscription.plans.some(plan => 
+            selectedPlanTypes.includes(plan.type)
+          );
+        });
+      
+      return matchesQuery && matchesSubscriptions && matchesCountries && matchesPlanTypes;
     });
-  }, [searchQuery, selectedSubscriptions, selectedCountries]);
+  }, [searchQuery, selectedSubscriptions, selectedCountries, selectedPlanTypes]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 py-12">
@@ -134,6 +149,7 @@ export function Families() {
             onChange={setSearchQuery}
             onFilterChange={setSelectedSubscriptions}
             onCountryFilterChange={setSelectedCountries}
+            onPlanTypeFilterChange={setSelectedPlanTypes}
             placeholder="Search by family name or subscription..."
           />
         </div>
