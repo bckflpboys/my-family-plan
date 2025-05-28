@@ -3,12 +3,19 @@ import { FamilyCard } from '../components/FamilyCard';
 import { SearchBar, SubscriptionType } from '../components/SearchBar';
 import { getSubscriptionByName, PlanType } from '../utils/subscriptions';
 
+// Define the plan type options for the family card
+type PlanTypeOption = 'individual' | 'family' | 'both';
+
+// Define country restriction types
+type CountryRestriction = 'all' | 'single' | 'region';
+
 // Helper function to get subscription data from the utility
 const getSubscriptionData = (name: string) => {
   const subscription = getSubscriptionByName(name);
   return subscription ? { name: subscription.name, icon: subscription.icon } : { name, icon: 'default' };
 };
 
+// Define the mock families with properly typed plan types
 const mockFamilies = [
   {
     id: "1",
@@ -16,12 +23,16 @@ const mockFamilies = [
     memberCount: 4,
     maxMembers: 6,
     country: "United States",
+    countryRestriction: 'single' as CountryRestriction,
     subscriptions: [
       getSubscriptionData("Netflix"),
       getSubscriptionData("Spotify"),
       getSubscriptionData("YouTube Premium")
     ],
-    isOwner: true
+    isOwner: true,
+    createdDate: "2025-01-15",
+    status: 'open' as 'open' | 'closed' | 'pending',
+    planTypes: ['family'] as ('individual' | 'family' | 'both')[]
   },
   {
     id: "2",
@@ -29,11 +40,15 @@ const mockFamilies = [
     memberCount: 5,
     maxMembers: 6,
     country: "Canada",
+    countryRestriction: 'region' as CountryRestriction,
     subscriptions: [
       getSubscriptionData("Xbox Game Pass"),
       getSubscriptionData("PlayStation Plus"),
       getSubscriptionData("Nintendo Online")
-    ]
+    ],
+    createdDate: "2025-02-03",
+    status: 'open' as 'open' | 'closed' | 'pending',
+    planTypes: ['individual' as PlanTypeOption]
   },
   {
     id: "3",
@@ -41,11 +56,15 @@ const mockFamilies = [
     memberCount: 3,
     maxMembers: 6,
     country: "United Kingdom",
+    countryRestriction: 'all' as CountryRestriction,
     subscriptions: [
       getSubscriptionData("Disney+"),
       getSubscriptionData("HBO Max"),
       getSubscriptionData("Apple TV+")
-    ]
+    ],
+    createdDate: "2025-01-28",
+    status: 'open' as 'open' | 'closed' | 'pending',
+    planTypes: ['both' as PlanTypeOption]
   },
   {
     id: "4",
@@ -53,10 +72,14 @@ const mockFamilies = [
     memberCount: 4,
     maxMembers: 5,
     country: "Germany",
+    countryRestriction: 'region' as CountryRestriction,
     subscriptions: [
       getSubscriptionData("Netflix"),
       getSubscriptionData("Apple TV+")
-    ]
+    ],
+    createdDate: "2025-03-10",
+    status: 'open' as 'open' | 'closed' | 'pending',
+    planTypes: ['individual' as PlanTypeOption]
   },
   {
     id: "5",
@@ -64,10 +87,14 @@ const mockFamilies = [
     memberCount: 6,
     maxMembers: 6,
     country: "France",
+    countryRestriction: 'single' as CountryRestriction,
     subscriptions: [
       getSubscriptionData("Spotify"),
       getSubscriptionData("YouTube Premium")
-    ]
+    ],
+    createdDate: "2025-02-15",
+    status: 'closed' as 'open' | 'closed' | 'pending',
+    planTypes: ['family']
   },
   {
     id: "6",
@@ -75,10 +102,14 @@ const mockFamilies = [
     memberCount: 3,
     maxMembers: 6,
     country: "Japan",
+    countryRestriction: 'single' as CountryRestriction,
     subscriptions: [
       getSubscriptionData("Netflix"),
       getSubscriptionData("Crunchyroll")
-    ]
+    ],
+    createdDate: "2025-03-05",
+    status: 'open' as 'open' | 'closed' | 'pending',
+    planTypes: ['both' as PlanTypeOption]
   },
   {
     id: "7",
@@ -86,10 +117,14 @@ const mockFamilies = [
     memberCount: 4,
     maxMembers: 5,
     country: "Australia",
+    countryRestriction: 'all' as CountryRestriction,
     subscriptions: [
       getSubscriptionData("Adobe Creative Cloud"),
       getSubscriptionData("Microsoft 365")
-    ]
+    ],
+    createdDate: "2025-04-12",
+    status: 'pending' as 'open' | 'closed' | 'pending',
+    planTypes: ['individual', 'family'] as ('individual' | 'family' | 'both')[]
   }
 ];
 
@@ -168,7 +203,12 @@ export function Families() {
                 memberCount={family.memberCount}
                 maxMembers={family.maxMembers}
                 subscriptions={family.subscriptions}
+                country={family.country}
+                countryRestriction={family.countryRestriction}
                 isOwner={family.isOwner}
+                createdDate={family.createdDate}
+                status={family.status}
+                planTypes={family.planTypes}
               />
             ))}
           </div>

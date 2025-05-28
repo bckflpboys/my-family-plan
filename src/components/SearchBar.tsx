@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, X, Globe, Music, Users, User } from 'lucide-react';
+import { Search, Filter, X, Globe, Music, Users, User, Map } from 'lucide-react';
 import { countries } from '../utils/countries';
 import { subscriptions, PlanType } from '../utils/subscriptions';
+import { regions, getRegionNameByCountry } from '../utils/regions';
 
 // Use the subscription names from the utility for type checking
 export type SubscriptionType = string;
@@ -228,10 +229,36 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                   type="text"
                   value={countrySearchQuery}
                   onChange={(e) => setCountrySearchQuery(e.target.value)}
-                  placeholder="Search countries..."
+                  placeholder="Search countries or regions..."
                   className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 />
               </div>
+              
+              {/* Region headers */}
+              <div className="mb-3">
+                <h4 className="text-xs font-semibold text-gray-500 mb-2">Regions</h4>
+                <div className="flex flex-wrap gap-2">
+                  {regions.map((region) => (
+                    <button
+                      key={region.id}
+                      onClick={() => region.countries.forEach(country => {
+                        if (!selectedCountries.includes(country.name)) {
+                          toggleCountry(country.name);
+                        }
+                      })}
+                      className="flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-50 text-blue-800 border border-blue-100 hover:bg-blue-100 transition-colors"
+                    >
+                      <Map className="h-3 w-3 mr-1" />
+                      {region.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="mb-2">
+                <h4 className="text-xs font-semibold text-gray-500 mb-2">Countries</h4>
+              </div>
+              
               <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
                 {filteredCountries.map((country) => (
                   <button
@@ -240,6 +267,7 @@ export function SearchBar({ value, onChange, onFilterChange, onCountryFilterChan
                     className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${selectedCountries.includes(country.name) 
                       ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' 
                       : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'}`}
+                    title={`Region: ${getRegionNameByCountry(country.name)}`}
                   >
                     {country.name}
                   </button>
