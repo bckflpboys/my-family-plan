@@ -1,5 +1,5 @@
-import React from 'react';
 import { Users, Crown } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface Subscription {
   name: string;
@@ -7,6 +7,7 @@ interface Subscription {
 }
 
 interface FamilyCardProps {
+  id?: string;
   name: string;
   memberCount: number;
   maxMembers: number;
@@ -14,7 +15,7 @@ interface FamilyCardProps {
   isOwner?: boolean;
 }
 
-export function FamilyCard({ name, memberCount, maxMembers, subscriptions, isOwner = false }: FamilyCardProps) {
+export function FamilyCard({ id = '1', name, memberCount, maxMembers, subscriptions, isOwner = false }: FamilyCardProps) {
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 transform transition-all duration-200 hover:scale-105">
       <div className="flex items-center justify-between mb-4">
@@ -42,9 +43,12 @@ export function FamilyCard({ name, memberCount, maxMembers, subscriptions, isOwn
         </div>
       </div>
       
-      <button className="mt-6 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <Link 
+        to={`/families/${id}`}
+        className="mt-6 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
         View Details
-      </button>
+      </Link>
     </div>
   );
 }

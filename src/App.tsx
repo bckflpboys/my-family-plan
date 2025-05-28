@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Users, UserPlus, LogIn, Share2, Shield } from 'lucide-react';
 import { Families } from './pages/Families';
+import { FamilyDetail } from './pages/FamilyDetail';
 import { Footer } from './components/Footer';
 
 function Home() {
@@ -119,6 +120,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/families" element={<Families />} />
+        <Route path="/families/:id" element={<FamilyDetail />} />
       </Routes>
 
       <Footer />

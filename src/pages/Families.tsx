@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { FamilyCard } from '../components/FamilyCard';
 import { SearchBar } from '../components/SearchBar';
 
 const mockFamilies = [
   {
+    id: "1",
     name: "Smith Family",
     memberCount: 4,
     maxMembers: 6,
@@ -15,6 +16,7 @@ const mockFamilies = [
     isOwner: true
   },
   {
+    id: "2",
     name: "Gaming Squad",
     memberCount: 5,
     maxMembers: 6,
@@ -25,6 +27,7 @@ const mockFamilies = [
     ]
   },
   {
+    id: "3",
     name: "Movie Lovers",
     memberCount: 3,
     maxMembers: 6,
@@ -69,6 +72,7 @@ export function Families() {
             {filteredFamilies.map((family, index) => (
               <FamilyCard
                 key={index}
+                id={family.id}
                 name={family.name}
                 memberCount={family.memberCount}
                 maxMembers={family.maxMembers}
