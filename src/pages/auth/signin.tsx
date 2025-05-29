@@ -4,11 +4,13 @@ import { ArrowLeft, Mail, Lock, User, LogIn } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useAuth } from '../../contexts/useAuth';
 
-// Import a custom Google icon since Lucide doesn't have one
+// Google official logo component
 const GoogleIcon = () => (
-  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 mr-2 text-red-500">
-    <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22Z"></path>
-    <path d="M17.8395 10.1018H12.2432V13.5732H15.5233C15.3397 14.5732 14.5233 16.1018 12.2432 16.1018C10.2432 16.1018 8.60971 14.4375 8.60971 12.2982C8.60971 10.1589 10.2432 8.49464 12.2432 8.49464C13.3397 8.49464 14.0661 8.92857 14.4769 9.33036L17.106 6.77679C15.6661 5.42857 14.0661 4.67857 12.2432 4.67857C8.15078 4.67857 4.77792 8.05143 4.77792 12.2982C4.77792 16.545 8.15078 19.9179 12.2432 19.9179C16.5233 19.9179 19.3397 17.0089 19.3397 12.4821C19.3397 11.8304 19.2769 10.9643 19.2142 10.1018H17.8395Z"></path>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="h-5 w-5 mr-2">
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
   </svg>
 );
 
@@ -192,7 +194,7 @@ export function SignIn() {
               <div className="mt-6">
                 <button
                   onClick={handleGoogleSignIn}
-                  className="w-full flex justify-center items-center py-2 px-4 border-2 border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="w-full flex justify-center items-center py-2 px-4 border-2 border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
                 >
                   <GoogleIcon />
                   Sign {isSignUp ? 'up' : 'in'} with Google

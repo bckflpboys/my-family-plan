@@ -258,6 +258,109 @@ function Home() {
           </div>
         </div>
       </div>
+
+      {/* Testimonials Section */}
+      <div className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-indigo-600 font-semibold text-sm uppercase tracking-wider">Testimonials</span>
+            <h2 className="mt-2 text-4xl font-bold text-gray-900 tracking-tight">What Our Users Say</h2>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Real stories from families sharing subscriptions on our platform</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Testimonial 1 */}
+            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg border-2 border-indigo-200 relative">
+              <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
+                <div className="bg-indigo-500 rounded-full p-2 shadow-lg">
+                  <Star className="h-6 w-6 text-white" fill="white" />
+                </div>
+              </div>
+              <div className="flex flex-col h-full">
+                <div className="mb-6">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} className="h-5 w-5 text-yellow-400" fill="#FBBF24" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-700 italic mb-6 flex-grow">
+                  "My family saves over $30 each month by sharing our streaming subscriptions. The platform makes it so easy to manage who has access to what!"
+                </p>
+                <div className="flex items-center">
+                  <div className="bg-indigo-100 rounded-full h-12 w-12 flex items-center justify-center mr-4 text-indigo-700 font-bold">
+                    JD
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">John Doe</h4>
+                    <p className="text-sm text-gray-600">Family group of 5</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Testimonial 2 */}
+            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg border-2 border-indigo-200 relative">
+              <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
+                <div className="bg-indigo-500 rounded-full p-2 shadow-lg">
+                  <Star className="h-6 w-6 text-white" fill="white" />
+                </div>
+              </div>
+              <div className="flex flex-col h-full">
+                <div className="mb-6">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} className="h-5 w-5 text-yellow-400" fill="#FBBF24" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-700 italic mb-6 flex-grow">
+                  "I was paying for 6 different streaming services. Now our extended family shares the cost and we all get access to everything. It's a game-changer!"
+                </p>
+                <div className="flex items-center">
+                  <div className="bg-indigo-100 rounded-full h-12 w-12 flex items-center justify-center mr-4 text-indigo-700 font-bold">
+                    AS
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Alice Smith</h4>
+                    <p className="text-sm text-gray-600">Family group of 8</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Testimonial 3 */}
+            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg border-2 border-indigo-200 relative">
+              <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
+                <div className="bg-indigo-500 rounded-full p-2 shadow-lg">
+                  <Star className="h-6 w-6 text-white" fill="white" />
+                </div>
+              </div>
+              <div className="flex flex-col h-full">
+                <div className="mb-6">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} className="h-5 w-5 text-yellow-400" fill="#FBBF24" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-700 italic mb-6 flex-grow">
+                  "The legal pages gave me confidence that everything is above board. We're saving money while staying compliant with the terms of our subscriptions."
+                </p>
+                <div className="flex items-center">
+                  <div className="bg-indigo-100 rounded-full h-12 w-12 flex items-center justify-center mr-4 text-indigo-700 font-bold">
+                    RJ
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Robert Johnson</h4>
+                    <p className="text-sm text-gray-600">Family group admin</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
@@ -283,108 +386,7 @@ function App() {
             <Route path="/auth/signin" element={<SignIn />} />
           </Routes>
           
-          {/* Testimonials Section */}
-          <div className="py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <span className="text-indigo-600 font-semibold text-sm uppercase tracking-wider">Testimonials</span>
-                <h2 className="mt-2 text-4xl font-bold text-gray-900 tracking-tight">What Our Users Say</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Real stories from families sharing subscriptions on our platform</p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Testimonial 1 */}
-                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg border-2 border-indigo-200 relative">
-                  <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
-                    <div className="bg-indigo-500 rounded-full p-2 shadow-lg">
-                      <Star className="h-6 w-6 text-white" fill="white" />
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-full">
-                    <div className="mb-6">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star key={star} className="h-5 w-5 text-yellow-400" fill="#FBBF24" />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-gray-700 italic mb-6 flex-grow">
-                      "My family saves over $30 each month by sharing our streaming subscriptions. The platform makes it so easy to manage who has access to what!"
-                    </p>
-                    <div className="flex items-center">
-                      <div className="bg-indigo-100 rounded-full h-12 w-12 flex items-center justify-center mr-4 text-indigo-700 font-bold">
-                        JD
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900">John Doe</h4>
-                        <p className="text-sm text-gray-600">Family group of 5</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Testimonial 2 */}
-                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg border-2 border-indigo-200 relative">
-                  <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
-                    <div className="bg-indigo-500 rounded-full p-2 shadow-lg">
-                      <Star className="h-6 w-6 text-white" fill="white" />
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-full">
-                    <div className="mb-6">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star key={star} className="h-5 w-5 text-yellow-400" fill="#FBBF24" />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-gray-700 italic mb-6 flex-grow">
-                      "I was paying for 6 different streaming services. Now our extended family shares the cost and we all get access to everything. It's a game-changer!"
-                    </p>
-                    <div className="flex items-center">
-                      <div className="bg-indigo-100 rounded-full h-12 w-12 flex items-center justify-center mr-4 text-indigo-700 font-bold">
-                        AS
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900">Alice Smith</h4>
-                        <p className="text-sm text-gray-600">Family group of 8</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Testimonial 3 */}
-                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg border-2 border-indigo-200 relative">
-                  <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
-                    <div className="bg-indigo-500 rounded-full p-2 shadow-lg">
-                      <Star className="h-6 w-6 text-white" fill="white" />
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-full">
-                    <div className="mb-6">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star key={star} className="h-5 w-5 text-yellow-400" fill="#FBBF24" />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-gray-700 italic mb-6 flex-grow">
-                      "The legal pages gave me confidence that everything is above board. We're saving money while staying compliant with the terms of our subscriptions."
-                    </p>
-                    <div className="flex items-center">
-                      <div className="bg-indigo-100 rounded-full h-12 w-12 flex items-center justify-center mr-4 text-indigo-700 font-bold">
-                        RJ
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900">Robert Johnson</h4>
-                        <p className="text-sm text-gray-600">Family group admin</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
           
           <Footer />
         </AuthProvider>
