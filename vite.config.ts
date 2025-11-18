@@ -25,4 +25,19 @@ export default defineConfig({
       util: 'util',
     },
   },
+  // Add server proxy for API requests
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000', // Express server port
+        changeOrigin: true,
+        secure: false,
+      },
+      '/auth': {
+        target: 'http://localhost:5000', // Express server port
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  },
 });

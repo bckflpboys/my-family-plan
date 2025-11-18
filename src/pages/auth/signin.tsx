@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Mail, Lock, User, LogIn } from 'lucide-react';
+import { ArrowLeft, Mail, Lock, User, LogIn, Eye, EyeOff } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useAuth } from '../../contexts/useAuth';
 
@@ -19,6 +19,11 @@ export function SignIn() {
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const [name, setName] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -40,8 +45,107 @@ export function SignIn() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This will be expanded when we add email/password auth
-    console.log('Form submitted', { email, password, name, isSignUp });
+    setError(null);
+    setSuccess(null);
+    setLoading(true);
+    
+    // Basic form validation
+    if (isSignUp && !name) {
+      setError('Name is required');
+      setLoading(false);
+      return;
+    }
+    
+    if (!email) {
+      setError('Email is required');
+      setLoading(false);
+      return;
+    }
+    
+    if (!password) {
+      setError('Password is required');
+      setLoading(false);
+      return;
+    }
+    
+    if (isSignUp && password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      setLoading(false);
+      return;
+    }
+    
+    try {
+      if (isSignUp) {
+        try {
+          // Register the user using the API endpoint
+          const response = await fetch('/api/users/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name,
+              nickname,
+              email,
+              password,
+              profilePicture: null, // You can add profile picture upload later
+            }),
+          });
+          
+          // Check if the response is ok before trying to parse JSON
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Registration error response:', errorText);
+            throw new Error(errorText || 'Registration failed');
+          }
+          
+          // Only try to parse JSON if we have a successful response
+          const data = await response.json();
+          console.log('Registration success:', data);
+          
+          setSuccess('Registration successful! You can now sign in.');
+          
+          // Optionally auto-sign in after registration
+          setTimeout(async () => {
+            // Use the credentials provider instead of Google
+            await signIn('credentials', {
+              email,
+              password,
+              callbackUrl: '/',
+            });
+          }, 1500); // Short delay to show success message
+        } catch (error) {
+          console.error('Registration fetch error:', error);
+          throw error; // Re-throw to be caught by the outer catch block
+        }
+      } else {
+        // Sign in using credentials provider
+        const result = await signIn('credentials', {
+          redirect: false,
+          email,
+          password,
+        });
+        
+        if (result?.error) {
+          throw new Error(result.error);
+        }
+        
+        if (result?.url) {
+          // Redirect to the callback URL or home page
+          navigate('/');
+        }
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      // Type guard to check if error is an Error object or has a message property
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Authentication failed. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleSignIn = async () => {
@@ -85,26 +189,48 @@ export function SignIn() {
           <div className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               {isSignUp && (
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <User className="h-5 w-5 text-gray-400" />
+                <>
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      Full Name
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <User className="h-5 w-5 text-gray-400" />
+                      </div>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required={isSignUp}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="block w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
+                        placeholder="John Doe"
+                      />
                     </div>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      required={isSignUp}
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="block w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
-                      placeholder="John Doe"
-                    />
                   </div>
-                </div>
+                  
+                  <div>
+                    <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-1">
+                      Nickname <span className="text-gray-500 text-xs">(Optional)</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <User className="h-5 w-5 text-gray-400" />
+                      </div>
+                      <input
+                        id="nickname"
+                        name="nickname"
+                        type="text"
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
+                        className="block w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
+                        placeholder="Johnny"
+                      />
+                    </div>
+                  </div>
+                </>
               )}
 
               <div>
@@ -139,13 +265,27 @@ export function SignIn() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
+                    className="block w-full pl-10 pr-10 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
                     placeholder="••••••••"
                   />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="text-gray-400 hover:text-gray-600 focus:outline-none"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5" />
+                      ) : (
+                        <Eye className="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -171,12 +311,37 @@ export function SignIn() {
                 </div>
               )}
 
+              {/* Error message */}
+              {error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-600">{error}</p>
+                </div>
+              )}
+              
+              {/* Success message */}
+              {success && (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-sm text-green-600">{success}</p>
+                </div>
+              )}
+              
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  disabled={loading}
+                  className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
-                  {isSignUp ? 'Create Account' : 'Sign In'}
+                  {loading ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      {isSignUp ? 'Creating Account...' : 'Signing In...'}
+                    </>
+                  ) : (
+                    isSignUp ? 'Create Account' : 'Sign In'
+                  )}
                 </button>
               </div>
             </form>
@@ -194,7 +359,8 @@ export function SignIn() {
               <div className="mt-6">
                 <button
                   onClick={handleGoogleSignIn}
-                  className="w-full flex justify-center items-center py-2 px-4 border-2 border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+                  disabled={loading}
+                  className={`w-full flex justify-center items-center py-2 px-4 border-2 border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
                   <GoogleIcon />
                   Sign {isSignUp ? 'up' : 'in'} with Google

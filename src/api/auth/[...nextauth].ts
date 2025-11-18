@@ -1,7 +1,11 @@
 import NextAuth from 'next-auth';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoClient } from 'mongodb';
+import bcrypt from 'bcryptjs';
+import User from '../../models/User';
+import dbConnect from '../../utils/database';
 
 // Extend the default NextAuth types to include our custom fields
 declare module 'next-auth' {
@@ -56,6 +60,58 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        await dbConnect();
+
+        try {
+          // Find user by email - explicitly include password field which is excluded by default
+          const user = await User.findOne({ email: credentials.email }).select('+password');
+          
+          if (!user) {
+            console.log('User not found:', credentials.email);
+            return null;
+          }
+
+          // Check if user is active
+          if (user.status !== 'active') {
+            console.log('User account not active:', user.status);
+            throw new Error(`Your account is ${user.status}. Please contact an administrator.`);
+          }
+
+          // Verify password using bcrypt
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+          
+          if (!isValid) {
+            console.log('Invalid password for user:', credentials.email);
+            return null;
+          }
+
+          console.log('Authentication successful for:', credentials.email);
+          
+          // Return user object that will be saved in the JWT token
+          return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            image: user.profilePicture,
+            role: user.role
+          };
+        } catch (error) {
+          console.error('Auth error:', error);
+          return null;
+        }
+      }
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),
